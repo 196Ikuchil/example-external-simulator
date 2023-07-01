@@ -30,6 +30,7 @@ Please see under the [configs](/configs) directory.
 ## Deploy
 
 ```sh
+k apply -f configs/configmap-my-scheduler-config.yaml
 k apply -f configs/example-external-scheduler.yaml
  ```
 
