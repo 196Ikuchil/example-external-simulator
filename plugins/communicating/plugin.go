@@ -88,6 +88,6 @@ func (mc CommunicatingPlugin) PreBind(ctx context.Context, state *framework.Cycl
 }
 
 // New initializes a new plugin and returns it.
-func New(_ *runtime.Unknown, _ framework.Handle) (framework.Plugin, error) {
+func New(runtime.Object, framework.Handle) (framework.Plugin, error) {
 	return &CommunicatingPlugin{}, nil
 }
