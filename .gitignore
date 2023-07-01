@@ -19,3 +19,9 @@
 
 # Go workspace file
 go.work
+
+# vscode
+.vscode/*
+
+# for build binary
+bin/*
