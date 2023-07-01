@@ -18,7 +18,7 @@ Then, build it to docker image.
 ```sh
 docker build -t my-project/example-external-scheduler:1.0 .
 ```
-
+Upload the built image to any registry. In here, we will push the image directly to minikube.
 ```sh
 minikube image load my-project/example-external-scheduler:1.0 -p=multinode-demo
 ```
@@ -26,14 +26,15 @@ minikube image load my-project/example-external-scheduler:1.0 -p=multinode-demo
 ## Configure scheduler
 To enable/disable default-plugin/your-custom-plugin and set some other setting, you need to use `KubeSchedulerConfiguration`.
 Please see under the [configs](/configs) directory.
+- config/configmap-my-scheduler-config.yaml
 
 ## Deploy
-
+Deploy the our scheduler and configurations.
 ```sh
-k apply -f configs/configmap-my-scheduler-config.yaml
-k apply -f configs/example-external-scheduler.yaml
+kubectl apply -f configs/configmap-my-scheduler-config.yaml
+kubectl apply -f configs/example-external-scheduler.yaml
  ```
-
+You can get a list of pods and check the status.
 ```sh
 kubectl get pods --namespace=kube-system
 NAME                                     READY   STATUS    RESTARTS      AGE
@@ -42,14 +43,11 @@ my-scheduler-7748f5c9fb-s59db            1/1     Running   0             20s
 ...
 ```
 
-
+## Scheduling with our scheduler
+Deploy pod to use our scheduler as a working check of the scheduler.
 ```sh
 kubectl apply -f ./configs/test-pod.yaml
-```
-
-
-```sh
-i196@i196noMacBook-Pro example-external-simulator % k get events
+kubectl get events
 LAST SEEN   TYPE     REASON                    OBJECT                            MESSAGE
 ...
 25s         Normal   Scheduled                 pod/annotation-second-scheduler   Successfully assigned default/annotation-second-scheduler to multinode-demo-m02
@@ -57,6 +55,7 @@ LAST SEEN   TYPE     REASON                    OBJECT                           
 24s         Normal   Created                   pod/annotation-second-scheduler   Created container pod-with-second-annotation-container
 24s         Normal   Started                   pod/annotation-second-scheduler   Started container pod-with-second-annotation-container
 ```
+
 # References
 - [Configure Multiple Schedulers](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/)
 
