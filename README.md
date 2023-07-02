@@ -12,14 +12,22 @@ minikube start --nodes 2 -p multinode-demo
 ## Build
 To deploy for the cluster, you need to build your own scheduler to binary.
 ```sh
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o bin/example-external-scheduler main.go
+GOOS=linux GOARCH=amd64 go build -a -o bin/example-external-scheduler example1/main.go
 ```
+you select one you want to run.
+```sh
+GOOS=linux GOARCH=amd64 go build -a -o bin/example-external-scheduler example2/main.go
+```
+
+
+
 Then, build it to docker image.
 ```sh
 docker build -t my-project/example-external-scheduler:1.0 .
 ```
 Upload the built image to any registry. In here, we will push the image directly to minikube.
 ```sh
+minikube image rm my-project/example-external-scheduler:1.0 -p=multinode-demo
 minikube image load my-project/example-external-scheduler:1.0 -p=multinode-demo
 ```
 
@@ -31,8 +39,8 @@ Please see under the [configs](/configs) directory.
 ## Deploy
 Deploy the our scheduler and configurations.
 ```sh
-kubectl apply -f configs/configmap-my-scheduler-config.yaml
-kubectl apply -f configs/example-external-scheduler.yaml
+kubectl apply -f example1/configs/configmap-my-scheduler-config.yaml
+kubectl apply -f example-external-scheduler.yaml
  ```
 You can get a list of pods and check the status.
 ```sh
@@ -46,7 +54,7 @@ my-scheduler-7748f5c9fb-s59db            1/1     Running   0             20s
 ## Scheduling with our scheduler
 Deploy pod to use our scheduler as a working check of the scheduler.
 ```sh
-kubectl apply -f ./configs/test-pod.yaml
+kubectl apply -f example1/configs/test-pod.yaml
 kubectl get events
 LAST SEEN   TYPE     REASON                    OBJECT                            MESSAGE
 ...
