@@ -33,16 +33,65 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.27.3
 )
 
+// replace github.com/kubernetes-sigs/kube-scheduler-simulator/simulator => ../kube-scheduler-simulator/simulator
+
 require (
 	k8s.io/component-base v0.27.3
 	k8s.io/kubernetes v1.27.3
 )
 
 require (
+	cloud.google.com/go v0.97.0 // indirect
+	github.com/Azure/azure-sdk-for-go v55.0.0+incompatible // indirect
+	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
+	github.com/Azure/go-autorest/autorest v0.11.27 // indirect
+	github.com/Azure/go-autorest/autorest/adal v0.9.20 // indirect
+	github.com/Azure/go-autorest/autorest/date v0.3.0 // indirect
+	github.com/Azure/go-autorest/autorest/mocks v0.4.2 // indirect
+	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
+	github.com/Azure/go-autorest/autorest/validation v0.1.0 // indirect
+	github.com/Azure/go-autorest/logger v0.2.1 // indirect
+	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
+	github.com/GoogleCloudPlatform/k8s-cloud-provider v1.18.1-0.20220218231025-f11817397a1b // indirect
 	github.com/asaskevich/govalidator v0.0.0-20190424111038-f61b66f89f4a // indirect
+	github.com/coreos/go-oidc v2.1.0+incompatible // indirect
+	github.com/go-logr/zapr v1.2.3 // indirect
+	github.com/gofrs/uuid v4.0.0+incompatible // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+	github.com/golang/mock v1.6.0 // indirect
+	github.com/googleapis/gax-go/v2 v2.1.1 // indirect
+	github.com/kubernetes-sigs/kube-scheduler-simulator v0.0.0-20230626225230-06846c8c8313 // indirect
+	github.com/labstack/echo/v4 v4.5.0 // indirect
+	github.com/labstack/gommon v0.3.0 // indirect
+	github.com/mattn/go-colorable v0.1.8 // indirect
+	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/moby/spdystream v0.2.0 // indirect
+	github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f // indirect
+	github.com/pquerna/cachecontrol v0.1.0 // indirect
+	github.com/robfig/cron/v3 v3.0.1 // indirect
+	github.com/rubiojr/go-vhd v0.0.0-20200706105327-02e210299021 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasttemplate v1.2.1 // indirect
+	github.com/vmware/govmomi v0.30.0 // indirect
+	go.opencensus.io v0.23.0 // indirect
+	golang.org/x/tools v0.7.0 // indirect
+	google.golang.org/api v0.60.0 // indirect
+	gopkg.in/gcfg.v1 v1.2.0 // indirect
+	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
+	gopkg.in/warnings.v0 v0.1.1 // indirect
+	k8s.io/apiextensions-apiserver v0.0.0 // indirect
+	k8s.io/cluster-bootstrap v0.0.0 // indirect
 	k8s.io/controller-manager v0.27.3 // indirect
+	k8s.io/cri-api v0.0.0 // indirect
+	k8s.io/kube-aggregator v0.0.0 // indirect
+	k8s.io/kube-controller-manager v0.0.0 // indirect
 	k8s.io/kubelet v0.27.3 // indirect
+	k8s.io/legacy-cloud-providers v0.0.0 // indirect
+	k8s.io/pod-security-admission v0.0.0 // indirect
+	sigs.k8s.io/kube-scheduler-simulator v0.0.0-20230626225230-06846c8c8313 // indirect
+	sigs.k8s.io/kube-scheduler-simulator/simulator v0.1.0 // indirect
 )
 
 require (
@@ -130,18 +179,18 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/api v0.27.3
-	k8s.io/apimachinery v0.27.3
-	k8s.io/apiserver v0.27.3 // indirect
-	k8s.io/client-go v0.27.3 // indirect
-	k8s.io/cloud-provider v0.0.0 // indirect
+	k8s.io/api v1.26.2
+	k8s.io/apimachinery v1.26.2
+	k8s.io/apiserver v1.26.2 // indirect
+	k8s.io/client-go v1.26.2 // indirect
+	k8s.io/cloud-provider v0.27.3 // indirect
 	k8s.io/component-helpers v0.27.3 // indirect
-	k8s.io/csi-translation-lib v0.0.0 // indirect
+	k8s.io/csi-translation-lib v0.26.2 // indirect
 	k8s.io/dynamic-resource-allocation v0.0.0 // indirect
 	k8s.io/klog/v2 v2.90.1
 	k8s.io/kms v0.27.3 // indirect
 	k8s.io/kube-openapi v0.0.0-20230501164219-8b0f38b5fd1f // indirect
-	k8s.io/kube-scheduler v0.0.0 // indirect
+	k8s.io/kube-scheduler v1.26.2 // indirect
 	k8s.io/mount-utils v0.0.0 // indirect
 	k8s.io/utils v0.0.0-20230209194617-a36077c30491 // indirect
 	sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.1.2 // indirect

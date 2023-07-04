@@ -93,10 +93,10 @@ spec:
           privileged: false
         volumeMounts:
           - name: config-volume
-            mountPath: /etc/kubernetes/my-scheduler
+            mountPath: /etc/kubernetes/my-scheduler  
       hostNetwork: false
       hostPID: false
       volumes:
         - name: config-volume
           configMap:
-            name: my-scheduler-config
+            name: my-scheduler-config  
