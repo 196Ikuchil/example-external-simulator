@@ -1,0 +1,30 @@
+kind: KubeSchedulerConfiguration
+apiVersion: kubescheduler.config.k8s.io/v1
+clientConnection:
+  kubeconfig: <absolute path to kubeconfig of minikube>
+profiles:
+  - schedulerName: my-scheduler
+    plugins:
+      # This is just an example based on https://github.com/kubernetes/kubernetes/blob/release-1.26/cmd/kube-scheduler/app/server_test.go
+      multiPoint:
+        enabled:
+        - name: SchedulingGates
+        - name: DefaultBinder
+        - name: PrioritySort
+        - name: DefaultPreemption
+        - name: VolumeBinding
+        - name: NodeResourcesFit
+        - name: NodePorts
+        - name: InterPodAffinity
+        - name: TaintToleration
+        # Enables custom plugins
+        - name: multipoint-communicating-plugin
+        - name: NodeNumber
+          weight: 10
+        disabled:
+        - name: "*"
+      filter:
+        disabled:
+        - name: VolumeBinding
+        - name: InterPodAffinity
+        - name: TaintToleration

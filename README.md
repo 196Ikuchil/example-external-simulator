@@ -9,71 +9,31 @@ If you do not already have a cluster, you create one by using [minikube](https:/
 minikube start --nodes 2 -p multinode-demo
 ```
 
-
+Here are three examples. Please choose one you would like to check.
 ```sh
 export workdir=example1
 ```
 
-## Build
-To deploy for the cluster, you need to build your own scheduler to binary.
-```sh
-GOOS=linux GOARCH=amd64 go build -a -o bin/example-external-scheduler ${workdir}/main.go
-```
-
-
-Then, build it to docker image.
-```sh
-docker build -t my-project/example-external-scheduler:1.0 .
-```
-Upload the built image to any registry. In here, we will push the image directly to minikube.
-```sh
-minikube image rm my-project/example-external-scheduler:1.0 -p=multinode-demo
-minikube image load my-project/example-external-scheduler:1.0 -p=multinode-demo
-```
-
-## Configuration
-NOTE: I followed [this page](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/) to pass the yaml files via ConfigMap. This minikube is just an example, so you use it in any way that fits your cluster.
-
-### Configure scheduler(Optional)
+## Configure scheduler
 To enable/disable default-plugin/your-custom-plugin and set some other setting, you need to use `KubeSchedulerConfiguration`.
-Please see `${workdir}/configs/configmap-my-scheduler-config.yaml`
+Please see `${workdir}/configs/kube-scheduler-config.yaml`
 
-### Set your kubeconfig.yaml (Step3 only)
-`external scheduler` feature requires us to pass the kubeconfig.yaml of your cluster. This is because the updating process of the pod annotation occurs.
-This time, we cheat a little and pass kubeconfig.yaml instead.
+### Set your kubeconfig.yaml path
+In order for the scheduler to communicate with the control plane, the absolute path to kubeconfig.yaml must be specified in the KubeSchedulerConfiguration file.
+In general, the kubeconfig file for minikube is located at `~/.kube/config`.
 
-WARN: You DO NOT this means in production environment. 
-
-Connect to minikube via ssh.
-```sh
-minikube ssh -p=multinode-demo
-sudo su
-```
-Copy contents of `/etc/kubernetes/admin.conf` to `my-kubeconfig.yaml` on `example3/configs/configmap-my-scheduler-config.yaml`.
-
-```sh
-cat /etc/kubernetes/admin.conf
-cat /etc/kubernetes/scheduler.conf
-```
-Then, overwrite the `server` field with reference to scheduler.conf's one.
-```admin.conf
-- server: https://control-plane.minikube.internal:8443
-+ server: https://192.168.49.2:8443
+So, rewrite this field.
+```yaml
+clientConnection:
+  kubeconfig: <absolute path to kubeconfig of minikube>
 ```
 
-## Deploy
-Deploy the our scheduler and configurations.
+## Run scheduler
+
+
+
 ```sh
-kubectl apply -f ${workdir}/configs/configmap-my-scheduler-config.yaml
-kubectl apply -f example-external-scheduler.yaml
- ```
-You can get a list of pods and check the status.
-```sh
-kubectl get pods --namespace=kube-system
-NAME                                     READY   STATUS    RESTARTS      AGE
-...
-my-scheduler-7748f5c9fb-s59db            1/1     Running   0             20s
-...
+go run ./${workdir}/main.go --config ./${workdir}/configs/kube-scheduler-config.yaml
 ```
 
 ## Scheduling with our scheduler
