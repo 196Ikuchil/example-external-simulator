@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+# The name `my-test-pod` will be 
+  name: my-test-pod
+  labels:
+    name: multischeduler-example
+spec:
+  schedulerName: my-scheduler
+  containers:
+  - name: pod-with-second-annotation-container
+    image: registry.k8s.io/pause:2.0

@@ -9,44 +9,37 @@ If you do not already have a cluster, you create one by using [minikube](https:/
 minikube start --nodes 2 -p multinode-demo
 ```
 
-## Build
-To deploy for the cluster, you need to build your own scheduler to binary.
+Here are three examples. Please choose one you would like to check.
 ```sh
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o bin/example-external-scheduler main.go
-```
-Then, build it to docker image.
-```sh
-docker build -t my-project/example-external-scheduler:1.0 .
-```
-Upload the built image to any registry. In here, we will push the image directly to minikube.
-```sh
-minikube image load my-project/example-external-scheduler:1.0 -p=multinode-demo
+export workdir=example1
 ```
 
 ## Configure scheduler
 To enable/disable default-plugin/your-custom-plugin and set some other setting, you need to use `KubeSchedulerConfiguration`.
-Please see under the [configs](/configs) directory.
-- config/configmap-my-scheduler-config.yaml
+Please see `${workdir}/configs/kube-scheduler-config.yaml`
 
-## Deploy
-Deploy the our scheduler and configurations.
+### Set your kubeconfig.yaml path
+In order for the scheduler to communicate with the control plane, the absolute path to kubeconfig.yaml must be specified in the KubeSchedulerConfiguration file.
+In general, the kubeconfig file for minikube is located at `~/.kube/config`.
+
+So, rewrite this field.
+```yaml
+clientConnection:
+  kubeconfig: <absolute path to kubeconfig of minikube>
+```
+
+## Run scheduler
+
+
+
 ```sh
-kubectl apply -f configs/configmap-my-scheduler-config.yaml
-kubectl apply -f configs/example-external-scheduler.yaml
- ```
-You can get a list of pods and check the status.
-```sh
-kubectl get pods --namespace=kube-system
-NAME                                     READY   STATUS    RESTARTS      AGE
-...
-my-scheduler-7748f5c9fb-s59db            1/1     Running   0             20s
-...
+go run ./${workdir}/main.go --config ./${workdir}/configs/kube-scheduler-config.yaml
 ```
 
 ## Scheduling with our scheduler
 Deploy pod to use our scheduler as a working check of the scheduler.
 ```sh
-kubectl apply -f ./configs/test-pod.yaml
+kubectl apply -f ${workdir}/configs/test-pod1.yaml
 kubectl get events
 LAST SEEN   TYPE     REASON                    OBJECT                            MESSAGE
 ...
